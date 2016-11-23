@@ -15,7 +15,8 @@ namespace ZLangSingleCompiler
             string srcFile = "sample/test.zyy";
             srcFile = "sample/对应表例子.zyy";
             srcFile = "sample/你好.zyy";
-
+            srcFile = "sample/列表例子.zyy";
+            
             if (args.Length > 0)
             {
                 srcFile = args[0];

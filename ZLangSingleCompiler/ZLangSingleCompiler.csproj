@@ -54,6 +54,9 @@
     <None Include="sample\你好.zyy">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="sample\列表例子.zyy">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="sample\对应表例子.zyy">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
