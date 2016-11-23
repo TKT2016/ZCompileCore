@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4C7E5206-D464-4415-B599-5CCB4BDC2041}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ZCompileCore</RootNamespace>
+    <AssemblyName>ZCompileCore</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Analyers\PropertyAnalyer.cs" />
+    <Compile Include="AST\Exps\AnalyedExp.cs" />
+    <Compile Include="AST\Exps\BinExpUtil.cs" />
+    <Compile Include="AST\Exps\Eds\EveryOneExp.cs" />
+    <Compile Include="AST\Exps\Eds\InvokeEveryoneBaseExp.cs" />
+    <Compile Include="AST\Exps\Eds\InvokeEveryoneObejctExp.cs" />
+    <Compile Include="AST\Exps\Eds\InvokeEveryoneSubejctExp.cs" />
+    <Compile Include="AST\Exps\UnaryExp.cs" />
+    <Compile Include="AST\Exps\Eds\InvokeSimplestExp.cs" />
+    <Compile Include="AST\Exps\Eds\NewLambdaExp.cs" />
+    <Compile Include="AST\Exps\IGenerateSet.cs" />
+    <Compile Include="AST\Exps\Eds\TypeExp.cs" />
+    <Compile Include="AST\Exps\Eds\DirectMemberExp.cs" />
+    <Compile Include="AST\Exps\Eds\VarExp.cs" />
+    <Compile Include="AST\Parts\AgreementAST.cs" />
+    <Compile Include="AST\Parts\SimpleUseAST.cs" />
+    <Compile Include="AST\Stmts\EveryOneAssignStmt.cs" />
+    <Compile Include="AST\Types\ClassAST.cs" />
+    <Compile Include="AST\Types\EnumAST.cs" />
+    <Compile Include="AST\Types\NormalClassAST.cs" />
+    <Compile Include="AST\Stmts\TryStmt.cs" />
+    <Compile Include="AST\Stmts\CatchStmt.cs" />
+    <Compile Include="AST\Stmts\ForeachStmt.cs" />
+    <Compile Include="Builders\ZCompileBuilder.cs" />
+    <Compile Include="Builders\ZCompileClassModel.cs" />
+    <Compile Include="Builders\ZCompileProjectModel.cs" />
+    <Compile Include="CompileConstant.cs" />
+    <Compile Include="Contexts\ImportContext.cs" />
+    <Compile Include="Contexts\ClassContext.cs" />
+    <Compile Include="Contexts\AContexts\AnalyExpContext.cs" />
+    <Compile Include="Contexts\EContexts\EmitConstructorContext.cs" />
+    <Compile Include="Contexts\MethodContext.cs" />
+    <Compile Include="Contexts\AContexts\AnalyStmtContext.cs" />
+    <Compile Include="Contexts\EContexts\EmitExpContext.cs" />
+    <Compile Include="Contexts\EContexts\EmitStmtContext.cs" />
+    <Compile Include="Contexts\EContexts\EmitMethodContext.cs" />
+    <Compile Include="Contexts\EContexts\EmitClassContext.cs" />
+    <Compile Include="Contexts\EContexts\EmitProjectContext.cs" />
+    <Compile Include="Contexts\ProjectContext.cs" />
+    <Compile Include="Loads\ExternalGcl.cs" />
+    <Compile Include="Loads\GclUtil.cs" />
+    <Compile Include="Loads\IGcl.cs" />
+    <Compile Include="Loads\MappingGcl.cs" />
+    <Compile Include="Loads\TktGcl.cs" />
+    <Compile Include="Parse\IdentParser.cs" />
+    <Content Include="Builders\ProjectCompiler.cs.txt" />
+    <Compile Include="Reports\ProjectCompileResult.cs" />
+    <Compile Include="Symbols\Defs\SymbolDefField.cs" />
+    <Compile Include="Symbols\Defs\SymbolDefProperty.cs" />
+    <Compile Include="Symbols\Imports\SymbolFieldDirect.cs" />
+    <Compile Include="Symbols\Imports\SymbolPropertyDirect.cs" />
+    <Compile Include="Symbols\Defs\SymbolDefClass.cs" />
+    <Compile Include="Symbols\InstanceSymbol.cs" />
+    <Compile Include="AST\Exps\NameValueExp.cs" />
+    <Compile Include="Symbols\SymbolInfo.cs" />
+    <Compile Include="Symbols\Defs\SymbolArg.cs" />
+    <Compile Include="Symbols\Defs\SymbolVar.cs" />
+    <Compile Include="Symbols\SymbolTable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Analyers\TypeNameAnalyer.cs" />
+    <Compile Include="AST\Exps\Eds\DiExp.cs" />
+    <Compile Include="AST\Exps\Eds\ClosureExp.cs" />
+    <Compile Include="AST\FileElementAST.cs" />
+    <Compile Include="AST\FileAST.cs" />
+    <Compile Include="AST\Exps\AnalyedCallExp.cs" />
+    <Compile Include="AST\Exps\BinExp.cs" />
+    <Compile Include="AST\Exps\BracketExp.cs" />
+    <Compile Include="AST\Exps\FCallExp.cs" />
+    <Compile Include="AST\Exps\Eds\InvokeExp.cs" />
+    <Compile Include="AST\Exps\Eds\DeExp.cs" />
+    <Compile Include="AST\Exps\Exp.cs" />
+    <Compile Include="AST\Exps\FTextExp.cs" />
+    <Compile Include="AST\Exps\LiteralExp.cs" />
+    <Compile Include="AST\Exps\Eds\NewExp.cs" />
+    <Compile Include="AST\Parts\PropertyAST.cs" />
+    <Compile Include="Analyers\ImportAnalyer.cs" />
+    <Compile Include="AST\Types\StaticClassAST.cs" />
+    <Compile Include="AST\Parts\PackageAST.cs" />
+    <Compile Include="AST\Parts\ImportPackageAST.cs" />
+    <Compile Include="AST\Parts\MethodAST.cs" />
+    <Compile Include="AST\Parts\Fns\FnArg.cs" />
+    <Compile Include="AST\Parts\Fns\FnBracket.cs" />
+    <Compile Include="AST\Parts\Fns\FnName.cs" />
+    <Compile Include="AST\Parts\Fns\FnText.cs" />
+    <Compile Include="AST\Parts\PartAST.cs" />
+    <Compile Include="AST\Stmts\AssignStmt.cs" />
+    <Compile Include="AST\Stmts\BlockStmt.cs" />
+    <Compile Include="AST\Stmts\CallStmt.cs" />
+    <Compile Include="AST\Stmts\IfStmt.cs" />
+    <Compile Include="AST\Stmts\Stmt.cs" />
+    <Compile Include="AST\Stmts\WhileStmt.cs" />
+    <Compile Include="AST\ASTree.cs" />
+    <Compile Include="Reports\CompileException.cs" />
+    <Compile Include="Lex\SourceReader.cs" />
+    <Compile Include="Lex\Token.cs" />
+    <Compile Include="Lex\Tokenizer.cs" />
+    <Compile Include="Lex\TokenKind.cs" />
+    <Compile Include="Reports\Messager.cs" />
+    <Compile Include="Parse\Parser_part.cs" />
+    <Compile Include="Parse\Parser_exp.cs" />
+    <Compile Include="Parse\Parser_stmt.cs" />
+    <Compile Include="Parse\Parser_tool.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Builders\FileCompiler.cs" />
+    <Compile Include="Builders\CompileUtil.cs" />
+    <Compile Include="ZLangCompiler.cs" />
+    <Compile Include="Tools\ChineseHelper.cs" />
+    <Compile Include="Lex\CodePostion.cs" />
+    <Compile Include="Tools\ClassContextHelper.cs" />
+    <Compile Include="Tools\EmitHelper.cs" />
+    <Compile Include="Tools\ListHelper.cs" />
+    <Compile Include="Tools\TextUtil.cs" />
+    <Compile Include="Symbols\Imports\SymbolEnumItem.cs" />
+    <None Include="TKT教程.chm" />
+    <None Include="Z语言接口编写文档 0.3.doc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZLangRT\ZLangRT.csproj">
+      <Project>{c7d13a96-ef60-4325-93b3-42e27575d53b}</Project>
+      <Name>ZLangRT</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Z语言系统\Z语言系统.csproj">
+      <Project>{8e893d3f-cf9c-4b45-b28c-06ca6e0436be}</Project>
+      <Name>Z语言系统</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

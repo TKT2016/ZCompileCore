@@ -1,0 +1,8 @@
+﻿
+这是项目是使用ZcomplieCore编译Z语言程序的实例。
+
+
+在生成的exe文件夹下，打开命令行，
+输入 ZLangSingleCompiler sample\你好.zyy
+就可以编译运行 你好.zyy
+

@@ -1,0 +1,189 @@
+﻿
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
+using System.Text;
+using System.Threading.Tasks;
+using ZCompiler.Analys.AContexts;
+using ZCompiler.Analys.EContexts;
+using ZCompiler.Reports;
+using ZCompiler.Tools;
+
+namespace ZCompiler.Builders
+{
+    public class ProjectCompiler
+    {
+        public ProjectCompileResult Compile(string file)
+        {
+            if(file.EndsWith(".tktxm",StringComparison.InvariantCultureIgnoreCase))
+            {
+                return CompileProject(file);
+            }
+            else
+            {
+                return CompileFile(file);
+            }
+        }
+
+        public ProjectCompileResult CompileProject(string projfile)
+        {
+            ProjectCompileResult result = new ProjectCompileResult();
+            string[] lines = File.ReadAllLines(projfile);
+            FileInfo projectFileInfo = new FileInfo(projfile);
+            string folder = projectFileInfo.Directory.FullName;
+            string binPath = Compile(lines, folder, result, projfile);
+            result.BinaryFilePath = binPath;
+            return result;
+        }
+
+        public ProjectCompileResult CompileFile(string srcfile)
+        {
+            FileInfo srcFileInfo = new FileInfo(srcfile);
+            ProjectCompileResult result = new ProjectCompileResult();
+            string folder = srcFileInfo.Directory.FullName;
+            string fileName = srcFileInfo.Name;
+            string fileNameNoExtends = System.IO.Path.GetFileNameWithoutExtension(srcFileInfo.FullName);
+            List<string> xmlist = new List<string>();
+            xmlist.Add("包名称:"+fileNameNoExtends);
+            xmlist.Add("生成类型:控制台程序");
+            xmlist.Add("编译:" + fileName);
+            xmlist.Add("设置启动:" + fileNameNoExtends);
+            string binPath = Compile(xmlist.ToArray(), folder, result, srcfile);
+            result.BinaryFilePath = binPath;
+            return result;
+        }
+
+        public string Compile(string[] lines, string folderPath, ProjectCompileResult result, string file)
+        {
+            ProjectContext context = new ProjectContext();
+
+            context.AddPackage(CompileConstant.LangPackageName);
+            context.AddPackage("TKT绘图");
+            context.AddPackage("TKT桌面控件");
+            context.AddPackage("TKT文件系统");
+            context.AddPackage("TKT互联网");
+            context.AddPackage("TKT操作系统");
+            context.AddPackage("TKT多媒体");
+
+            Messager.Clear();
+            context.LoadRefTypes();
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string code = lines[i];
+                if (string.IsNullOrEmpty(code))
+                {
+                    continue;
+                }
+                else if (code.StartsWith("//"))
+                {
+                    continue;
+                }
+                else if (code.StartsWith("包名称:"))
+                {
+                    string name = code.Substring(4);
+                    context.RootNameSpace = name;
+                }
+                else if (code.StartsWith("生成类型:"))
+                {
+                    string lx = code.Substring(5);
+                    if (lx == "开发包")
+                    {
+                        context.BinaryFileKind = PEFileKinds.Dll;
+                    }
+                    else if (lx == "控制台程序")
+                    {
+                        context.BinaryFileKind = PEFileKinds.ConsoleApplication;
+                    }
+                    else if (lx == "桌面程序")
+                    {
+                        context.BinaryFileKind = PEFileKinds.WindowApplication;
+                    }
+                    CompileUtil.GenerateBinary(context);// GenerateBinary(context);
+                }
+                else if (code.StartsWith("编译:"))
+                {
+                    string src = code.Substring(3);
+                    string srcPath = Path.Combine(folderPath, src);
+                    FileCompiler fc = new FileCompiler(); //FileCompiler fc = new FileCompiler(context, srcPath);
+                    Type type = fc.Compile(context, srcPath);
+                    if (type != null)
+                    {
+                        context.LoadProjectType(type);
+                    }
+                    else
+                    {
+                        result.Errors.AddRange(Messager.Results.Errors);
+                        result.Errors.AddRange(Messager.Results.Warnings);
+                        Messager.Clear();
+                    }
+                }
+                else if (code.StartsWith("设置启动:"))
+                {
+                    string name = code.Substring(5);
+                    Type type = context.GetProjectType(name);
+                    if (type == null)
+                    {
+                        errorf(result, file, i + 1, 6, "类型'{0}'不存在", name);
+                        continue;
+                    }
+                    MethodInfo main = type.GetMethod("启动");
+                    if (main == null)
+                    {
+                        errorf(result, file, i + 1, 6, "类型'{0}'不存在'启动'过程", name);
+                        continue;
+                    }
+                    if (!main.IsStatic)
+                    {
+                        errorf(result, file, i + 1, 6, "'{0}'不是唯一类型，不能作为启动入口", name);
+                        continue;
+                    }
+                    context.EmitContext.AssemblyBuilder.SetEntryPoint(main, context.BinaryFileKind);
+                }
+                else
+                {
+                    //throw new CompileException("无法识别项目编译指令:" + code);
+                    errorf(result, file, i + 1, 1, "无法识别项目编译指令:'{0}'", code);
+                    continue;
+                }
+            }
+
+            if (result.HasError() == false)
+            {
+                string binFileName = context.BinFileName;
+                string binFilePath = Path.Combine(folderPath, binFileName);
+                //try
+                //{
+                    context.EmitContext.AssemblyBuilder.Save(binFileName); 
+                    string str = System.AppDomain.CurrentDomain.BaseDirectory;
+                    if (File.Exists(binFilePath))
+                    {
+                        File.Delete(binFilePath);
+                    }
+                    File.Move(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, binFileName), binFilePath);
+                    CompileUtil.DeletePDB(binFileName);
+                //}
+                //catch (Exception ex)
+                //{
+                //    //Console.WriteLine(ex.Message);
+                //}
+                return binFilePath;
+            }
+            return null;
+        }
+
+        void errorf( ProjectCompileResult result,string file,int line,int col,string formatstring,params string[] args)
+        {
+            CompileMessage msg = new CompileMessage() { FileName = file, Line = line, Col = col, Text = string.Format(formatstring, args) };
+            result.Errors.Add(msg);
+        }
+    }
+
+}
