@@ -11,7 +11,7 @@ namespace Z语言系统
     [ZMapping(typeof(object))]
     public abstract class 事物
     {
-        [Code("生成文本形式")]
+        [ZCode("生成文本形式")]
         public abstract override string ToString();
     }
 

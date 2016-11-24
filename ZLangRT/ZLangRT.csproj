@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\CodeAttribute.cs" />
+    <Compile Include="Attributes\ZCodeAttribute.cs" />
     <Compile Include="Attributes\ZClassAttribute.cs" />
     <Compile Include="Attributes\ZMappingAttribute.cs" />
     <Compile Include="Descs\CnEnDict.cs" />

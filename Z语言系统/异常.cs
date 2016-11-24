@@ -10,7 +10,7 @@ namespace Z语言系统
     [ZMapping(typeof(Exception))]
     public abstract class 异常
     {
-        [Code("异常信息")]
+        [ZCode("异常信息")]
         public string Message { get; set; }
 
     }

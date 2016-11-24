@@ -160,10 +160,10 @@ namespace ZCompileCore.Analys.AContexts
                     {
                         object value = fi.GetValue(null);
                         string rname = fi.Name;
-                        var mapAttrObj = Attribute.GetCustomAttribute(fi, typeof(CodeAttribute));
+                        var mapAttrObj = Attribute.GetCustomAttribute(fi, typeof(ZCodeAttribute));
                         if (mapAttrObj != null)
                         {
-                            CodeAttribute mapAttr = mapAttrObj as CodeAttribute;
+                            ZCodeAttribute mapAttr = mapAttrObj as ZCodeAttribute;
                             rname = mapAttr.Code;
                         }
                         if (rname == name)

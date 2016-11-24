@@ -54,7 +54,7 @@ namespace Z语言系统
             }
         }
 
-        [Code("个数")]
+        [ZCode("个数")]
         public int Count
         {
             get
@@ -91,33 +91,33 @@ namespace Z语言系统
             }
         }
 
-        [Code("添加(T:item)")]
+        [ZCode("添加(T:item)")]
         public void Add(T item)
         {
             //Console.WriteLine("加入 "+item);
             list.Add(item);
         }
 
-        [Code("包含(T:item)")]
+        [ZCode("包含(T:item)")]
         public bool Contains(T item)
         {
             return list.Contains(item);
         }
 
-        [Code("删除(T:item)")]
+        [ZCode("删除(T:item)")]
         public bool Remove(T item)
         {
             return list.Remove(item);
         }
 
-        [Code("删除第(int:index)")]
+        [ZCode("删除第(int:index)")]
         public void RemoveAt(int index)
         {
             int i = getIndex(index);
             list.RemoveAt(i);
         }
 
-        [Code("删除(列表<T>:LB)")]
+        [ZCode("删除(列表<T>:LB)")]
         public int RemoveList(列表<T> LB)
         {
             int count = 0;
@@ -138,19 +138,19 @@ namespace Z语言系统
             return count;
         }
 
-        [Code("清空")]
+        [ZCode("清空")]
         public void Clear()
         {
             list.Clear();
         }
 
-        [Code("查找(T:item)序号")]
+        [ZCode("查找(T:item)序号")]
         public int IndexOf(T item)
         {
             return list.IndexOf(item) + 1;
         }
        
-        [Code("插入(T:t)到第(int:index)")]
+        [ZCode("插入(T:t)到第(int:index)")]
         public void Insert( T item,int index)
         {
             //插入_到(item, index);

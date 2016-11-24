@@ -148,7 +148,7 @@ namespace ZCompileCore.AST.Parts
 
         void setAttrMappingCode(MethodBuilder methodBuilder)
         {
-            Type myType = typeof(CodeAttribute);
+            Type myType = typeof(ZCodeAttribute);
             ConstructorInfo infoConstructor = myType.GetConstructor(new Type[] { typeof(string) });
             string code = this.FnName.ToProcDescCode();
             CustomAttributeBuilder attributeBuilder = new CustomAttributeBuilder(infoConstructor, new object[] { code });

@@ -10,13 +10,13 @@ namespace Z语言系统
     [ZMapping(typeof(Console))]
     public abstract class 控制台
     {
-        [Code("响铃")]
+        [ZCode("响铃")]
         public abstract void Beep();
 
-        [Code("换行")]
+        [ZCode("换行")]
         public abstract void WriteLine();
 
-        [Code("换(int:k)行")]
+        [ZCode("换(int:k)行")]
         public static void ReadLine(int k)
         {
             for (int i = 0; i < k; i++)
@@ -25,11 +25,11 @@ namespace Z语言系统
             }
         }
 
-        [Code("读取文本")]
+        [ZCode("读取文本")]
         public abstract string ReadLine();
 
 
-        [Code("等待按键")]
+        [ZCode("等待按键")]
         public abstract void ReadKey();
 
         public static int 读取整数()

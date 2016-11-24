@@ -70,7 +70,7 @@ namespace Z语言系统
             dict.Clear();
         }
 
-        [Code("判断存在(K:k)")]
+        [ZCode("判断存在(K:k)")]
         public bool 判断存在(K k)
         {
             return dict.ContainsKey(k);

@@ -78,7 +78,7 @@ namespace ZCompileCore.Loads
             {
                 if (ReflectionUtil.IsDeclare(MType, field))
                 {
-                    CodeAttribute propertyAttr = Attribute.GetCustomAttribute(field, typeof(CodeAttribute)) as CodeAttribute;
+                    ZCodeAttribute propertyAttr = Attribute.GetCustomAttribute(field, typeof(ZCodeAttribute)) as ZCodeAttribute;
                     if (propertyAttr == null)
                     {
                         if (field.Name == name)
@@ -111,7 +111,7 @@ namespace ZCompileCore.Loads
             {
                 if (ReflectionUtil.IsDeclare(MType, property))
                 {
-                    CodeAttribute propertyAttr = Attribute.GetCustomAttribute(property, typeof(CodeAttribute)) as CodeAttribute;
+                    ZCodeAttribute propertyAttr = Attribute.GetCustomAttribute(property, typeof(ZCodeAttribute)) as ZCodeAttribute;
                     if(propertyAttr==null)
                     {
                         if(property.Name==name)
@@ -142,7 +142,7 @@ namespace ZCompileCore.Loads
             var methodArray = MType.GetMethods( );
             foreach (var method in methodArray)
             {
-                CodeAttribute procAttr = Attribute.GetCustomAttribute(method, typeof(CodeAttribute)) as CodeAttribute;
+                ZCodeAttribute procAttr = Attribute.GetCustomAttribute(method, typeof(ZCodeAttribute)) as ZCodeAttribute;
                 if (procAttr == null)
                 {
                     ExMethodInfo exMethod = GclUtil.CreatExMethodInfo(method, this.ForType);

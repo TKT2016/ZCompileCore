@@ -11,13 +11,13 @@ namespace Z语言系统
     [ZClass]
     public class 时间日期辅助
     {
-        [Code("现在时间")]
+        [ZCode("现在时间")]
         public static DateTime 现在时间()
         {
             return DateTime.Now;
         }
 
-        [Code("计算(DateTime:dt)星期几")]
+        [ZCode("计算(DateTime:dt)星期几")]
         public static int 计算星期几(DateTime dt)
         {
             DayOfWeek weekday = dt.DayOfWeek;
