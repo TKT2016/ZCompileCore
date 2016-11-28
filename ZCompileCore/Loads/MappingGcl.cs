@@ -190,7 +190,8 @@ namespace ZCompileCore.Loads
                             }
                             if(rmethod==null)
                             {
-                                throw new RTException("方法与被翻译类型的方法不一致");
+                                return null; 
+                                //throw new RTException("方法与被翻译类型的方法不一致");
                             }
                             else
                             {
@@ -218,7 +219,8 @@ namespace ZCompileCore.Loads
                             }
                             if (rmethod == null)
                             {
-                                throw new RTException("过程描述标注错误");
+                                return null; 
+                                //throw new RTException("过程描述标注错误");
                             }
                             else
                             {
