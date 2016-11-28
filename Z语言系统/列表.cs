@@ -43,7 +43,7 @@ namespace Z语言系统
         {
             get
             {
-                Console.WriteLine("index="+index);
+                //Console.WriteLine("index="+index);
                 int i = getIndex(index);
                 return list[i];
             }

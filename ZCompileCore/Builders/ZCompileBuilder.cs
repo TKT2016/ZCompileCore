@@ -43,7 +43,7 @@ namespace ZCompileCore.Builders
                     }
                     catch (Exception ex)
                     {
-                        Messager.Error("加载DLL文件夹错误:"+ex.Message);
+                        Messager.Error("加载DLL文件"+dll.Name+"错误:"+ex.Message);
                     }
                 }
             }

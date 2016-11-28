@@ -89,7 +89,6 @@
     <Compile Include="Loads\MappingGcl.cs" />
     <Compile Include="Loads\TktGcl.cs" />
     <Compile Include="Parse\IdentParser.cs" />
-    <Content Include="Builders\ProjectCompiler.cs.txt" />
     <Compile Include="Reports\ProjectCompileResult.cs" />
     <Compile Include="Symbols\Defs\SymbolDefField.cs" />
     <Compile Include="Symbols\Defs\SymbolDefProperty.cs" />
@@ -158,7 +157,7 @@
     <Compile Include="Tools\ListHelper.cs" />
     <Compile Include="Tools\TextUtil.cs" />
     <Compile Include="Symbols\Imports\SymbolEnumItem.cs" />
-    <None Include="TKT教程.chm" />
+    <None Include="Z语言教程.chm" />
     <None Include="Z语言接口编写文档 0.3.doc" />
   </ItemGroup>
   <ItemGroup>

@@ -23,6 +23,7 @@ namespace Z语言系统
         {
             for(int i=0;i<times;i++)
             {
+                //Console.WriteLine("第次"+i);
                 act();
             }
         }
