@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4C7E5206-D464-4415-B599-5CCB4BDC2041}</ProjectGuid>
+    <ProjectGuid>{CD7585D5-9DE2-4784-83EF-4D173ABAB765}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ZCompileCore</RootNamespace>
@@ -149,6 +149,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Builders\FileCompiler.cs" />
     <Compile Include="Builders\CompileUtil.cs" />
+    <Compile Include="Tools\TxtFileEncoding.cs" />
     <Compile Include="ZLangCompiler.cs" />
     <Compile Include="Tools\ChineseHelper.cs" />
     <Compile Include="Lex\CodePostion.cs" />
@@ -162,15 +163,14 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZLangRT\ZLangRT.csproj">
-      <Project>{c7d13a96-ef60-4325-93b3-42e27575d53b}</Project>
+      <Project>{bdbcdf64-058a-4f6f-a0d9-f74b4f564dd2}</Project>
       <Name>ZLangRT</Name>
     </ProjectReference>
     <ProjectReference Include="..\Z语言系统\Z语言系统.csproj">
-      <Project>{8e893d3f-cf9c-4b45-b28c-06ca6e0436be}</Project>
+      <Project>{c868dd87-84b4-43f0-a984-6a8dd701c38d}</Project>
       <Name>Z语言系统</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

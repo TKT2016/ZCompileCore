@@ -20,8 +20,7 @@ namespace ZCompileCore.Builders
             return result;
         }
 
-        private ProjectCompileResult CompileProject(ZCompileProjectModel zCompileProjectModel,
-            ProjectContext projectContext)
+        private ProjectCompileResult CompileProject(ZCompileProjectModel zCompileProjectModel, ProjectContext projectContext)
         {
             ProjectCompileResult result = new ProjectCompileResult();
             Messager.Clear();
@@ -30,6 +29,7 @@ namespace ZCompileCore.Builders
             projectContext.BinaryFileKind = zCompileProjectModel.BinaryFileKind; //设置项目目标文件类型
             projectContext.BinaryFileNameNoEx = zCompileProjectModel.BinaryFileNameNoEx;
             projectContext.BinarySaveDirectoryInfo = zCompileProjectModel.BinarySaveDirectoryInfo;
+            projectContext.EntryClassName = zCompileProjectModel.EntryClassName;
 
             /*--------------------------------------------- 添加DLL -------------------------------------*/
             if (zCompileProjectModel.RefDllList != null && zCompileProjectModel.RefDllList.Count > 0)
@@ -59,7 +59,6 @@ namespace ZCompileCore.Builders
             /*--------------------------------------------- 加载引用Class -------------------------------------*/
             projectContext.LoadRefTypes();
 
-
             CompileUtil.GenerateBinary(projectContext);
             /*--------------------------------------------- 编译类 -------------------------------------*/
             if (zCompileProjectModel.SouceFileList != null && zCompileProjectModel.SouceFileList.Count > 0)
@@ -79,15 +78,49 @@ namespace ZCompileCore.Builders
                     }
                 }
             }
+            /*--------------------------------------------- 设置入口点 -------------------------------------*/
+            if (!string.IsNullOrEmpty(projectContext.EntryClassName))
+            {
+                var name = projectContext.EntryClassName;
+                Type type = result.GetCompiledType(projectContext.EntryClassName);
+                var file = projectContext.ProjectFileName;
+                var i = -1;
+                if (type == null)
+                {
+                    errorf(result, file, i + 1, 6, "入口类型'{0}'不存在", name);
+                    //continue;
+                }
+                else
+                {
+                    MethodInfo main = type.GetMethod("启动");
+                    if (main == null)
+                    {
+                        errorf(result, file, i + 1, 6, "入口类型'{0}'不存在'启动'过程", name);
+                        //continue;
+                    }
+                    else if (!main.IsStatic)
+                    {
+                        errorf(result, file, i + 1, 6, "入口类型'{0}'不是唯一类型，不能作为启动入口", name);
+                        //continue;
+                    }
+                    projectContext.EmitContext.AssemblyBuilder.SetEntryPoint(main, projectContext.BinaryFileKind);
+                }
+            }
 
             if (result.HasError() == false)
             {
                 if (zCompileProjectModel.NeedSave)
                 {
-                    result.BinaryFilePath = saveBinaryFile(projectContext/*, zCompileProjectModel*/);
+                    result.BinaryFilePath = saveBinaryFile(projectContext);
                 }
             }
             return result;
+        }
+
+        private void errorf(ProjectCompileResult result, string file, int line, int col, string formatstring, params string[] args)
+        {
+            CompileMessage msg = new CompileMessage() { FileName = file, Line = line, Col = col, Text = string.Format(formatstring, args) };
+            result.Errors.Add(msg);
         }
 
         private string saveBinaryFile(ProjectContext projectContext)
@@ -118,12 +151,5 @@ namespace ZCompileCore.Builders
             }
             return type;
         }
-
-        /*
-        private void errorf(ProjectCompileResult result, string file, int line, int col, string formatstring, params string[] args)
-        {
-            CompileMessage msg = new CompileMessage() { FileName = file, Line = line, Col = col, Text = string.Format(formatstring, args) };
-            result.Errors.Add(msg);
-        }*/
     }
 }

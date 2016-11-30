@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using System.IO;
+using ZCompileCore.Tools;
 
 namespace ZCompileCore.Lex
 {
@@ -23,7 +24,8 @@ namespace ZCompileCore.Lex
         public void ReadFile(string fileName)
         {
             //_reader = File.OpenText(fileName);
-            _sourceText = File.ReadAllText(fileName, System.Text.Encoding.Default /*, Encoding.UTF8*/);
+            Encoding encoding = TxtFileEncoding.GetEncoding(fileName);
+            _sourceText = File.ReadAllText(fileName, encoding);//Encoding.Default /*, Encoding.UTF8*/);
             pointer = 0;
         }
 

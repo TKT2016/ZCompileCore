@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8E893D3F-CF9C-4B45-B28C-06CA6E0436BE}</ProjectGuid>
+    <ProjectGuid>{C868DD87-84B4-43F0-A984-6A8DD701C38D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Z语言系统</RootNamespace>
@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TKT系统词典.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="事物.cs" />
     <Compile Include="补语控制.cs" />
@@ -64,7 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZLangRT\ZLangRT.csproj">
-      <Project>{c7d13a96-ef60-4325-93b3-42e27575d53b}</Project>
+      <Project>{bdbcdf64-058a-4f6f-a0d9-f74b4f564dd2}</Project>
       <Name>ZLangRT</Name>
     </ProjectReference>
   </ItemGroup>

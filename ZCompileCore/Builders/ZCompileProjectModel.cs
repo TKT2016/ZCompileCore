@@ -53,7 +53,12 @@ namespace ZCompileCore.Builders
         /// 项目根目录
         /// </summary>
         public DirectoryInfo ProjectRootDirectoryInfo { get; set; }
-        
+
+        /// <summary>
+        /// 项目文件名称
+        /// </summary>
+        public string ProjectFileName { get; set; }
+
         /// <summary>
         /// 是否保存生成的二进制文件
         /// </summary>

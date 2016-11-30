@@ -24,5 +24,15 @@ namespace ZCompileCore.Reports
         {
             return this.Errors.Count>0;
         }
+
+        public Type GetCompiledType(string name)
+        {
+            foreach (var type in CompiledTypes)
+            {
+                if (type.Name == name)
+                    return type;
+            }
+            return null;
+        }
     }
 }

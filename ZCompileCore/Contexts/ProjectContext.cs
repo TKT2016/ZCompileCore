@@ -22,6 +22,8 @@ namespace ZCompileCore.Analys.AContexts
         public List<Assembly> Refs { get; private set; }
         public List<Type> ProjectTypes { get; private set; }
         public DirectoryInfo BinarySaveDirectoryInfo { get; set; }
+        public string EntryClassName { get; set; }
+        public string ProjectFileName { get; set; }
 
         public void LoadProjectType(Type type)
         {

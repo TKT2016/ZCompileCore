@@ -52,18 +52,7 @@ namespace ZLangRT
         
         public static object Call(object obj, string funcName, params object[] args)
         {
-            //debug("--- ------  Call "+ funcName);
-            //List<object> argList = new List<object>();
-            //foreach (object arg in args)
-            //{
-            //    argList.Add(Calculater.ConvertObjectType(arg));
-            //}
             object[] newArgs = args;// args.Select(p => Calculater.ConvertObjectType(p)).ToArray();
-            //debug("newArgs " + string.Join(",",newArgs.Select(p=>p.ToString())));
-            //debug(" ----- obj Type " + (obj.GetType()));
-            //debug(" **** obj= " + obj.ToString());
-            //debug(" **** obj= " + obj.ToString());
-
             object result = null;
 
             if (obj is Type)
@@ -86,13 +75,6 @@ namespace ZLangRT
 
         public static MethodInfo GetMethodInfo(Type type, string funcName, params object[] args)
         {
-            //List<object> argList = new List<object>();
-            //foreach (object arg in args)
-            //{
-            //    argList.Add(Calculater.ConvertObjectType(arg));
-            //}
-            //object[] newArgs = argList.ToArray();
-
             List<Type> types = new List<Type>();
             foreach (object arg in args)
             {
