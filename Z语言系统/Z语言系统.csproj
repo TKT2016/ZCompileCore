@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C868DD87-84B4-43F0-A984-6A8DD701C38D}</ProjectGuid>
+    <ProjectGuid>{8E893D3F-CF9C-4B45-B28C-06CA6E0436BE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Z语言系统</RootNamespace>

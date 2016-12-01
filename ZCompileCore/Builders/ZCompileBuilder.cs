@@ -79,7 +79,7 @@ namespace ZCompileCore.Builders
                 }
             }
             /*--------------------------------------------- 设置入口点 -------------------------------------*/
-            if (!string.IsNullOrEmpty(projectContext.EntryClassName))
+            if (projectContext.BinaryFileKind!= PEFileKinds.Dll&& !string.IsNullOrEmpty(projectContext.EntryClassName))
             {
                 var name = projectContext.EntryClassName;
                 Type type = result.GetCompiledType(projectContext.EntryClassName);

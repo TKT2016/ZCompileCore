@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BDBCDF64-058A-4F6F-A0D9-F74B4F564DD2}</ProjectGuid>
+    <ProjectGuid>{C7D13A96-EF60-4325-93B3-42E27575D53B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ZLangRT</RootNamespace>

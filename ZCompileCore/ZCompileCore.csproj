@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CD7585D5-9DE2-4784-83EF-4D173ABAB765}</ProjectGuid>
+    <ProjectGuid>{4C7E5206-D464-4415-B599-5CCB4BDC2041}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ZCompileCore</RootNamespace>
