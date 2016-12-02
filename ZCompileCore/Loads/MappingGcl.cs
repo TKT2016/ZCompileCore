@@ -21,17 +21,13 @@ namespace ZCompileCore.Loads
         public string ShowName { get { return GenericUtil.GetGenericTypeShortName(this.MType); } }
         public string RTName { get { return GenericUtil.GetGenericTypeShortName(this.ForType); } }
 
-        //MappingGcl _ParentMapping { get; set; }
         public MappingGcl ParentMapping { get; set; }
-
         ZMappingAttribute attr;
-        //Type forType;
         ProcDescCodeParser parser = new ProcDescCodeParser();
 
         public MappingGcl(Type mappingedType, CnEnDict wordDict)
         {
             MType = mappingedType;
-            //ForType = GetForType();
             WordDict = wordDict;
             initByAttr(wordDict);
         }
@@ -70,14 +66,47 @@ namespace ZCompileCore.Loads
             return gcl;
         }
 
+        bool isExFieldInfoByAttr(string name, MemberInfo member)
+        {
+            Attribute[] attrs = Attribute.GetCustomAttributes(member, typeof(ZCodeAttribute));
+            if (attrs.Length == 0)
+            {
+                if (member.Name == name)
+                {
+                    return true;// return GclUtil.CreatExFieldInfo(ForType.GetField(member.Name), ForType);
+                }
+            }
+            else
+            {
+                foreach (Attribute attr in attrs)
+                {
+                    ZCodeAttribute zCodeAttribute = attr as ZCodeAttribute;
+                    if (zCodeAttribute.Code == name)
+                    {
+                        return true;// return GclUtil.CreatExFieldInfo(ForType.GetField(member.Name), ForType);
+                    }
+                }
+            }
+            return false;  // return null;
+        }
+
         public ExFieldInfo SearchExField(string name)
         {
             if (this.ForType.IsEnum)
             {
-                var fieldArray = this.ForType.GetFields(BindingFlags.Static | BindingFlags.Public);
+                var fieldArray = this.ForType.GetFields(BindingFlags.Static | BindingFlags.Public );
                 foreach (FieldInfo field in fieldArray)
                 {
-                    ZCodeAttribute propertyAttr = Attribute.GetCustomAttribute(field, typeof(ZCodeAttribute)) as ZCodeAttribute;
+                    if (isExFieldInfoByAttr(name, field))
+                    {
+                        return GclUtil.CreatExFieldInfo(ForType.GetField(field.Name), ForType);
+                    }
+                    /*ExFieldInfo exFieldInfo = searchExFieldInfoByAttr(name, field);
+                    if (exFieldInfo != null)
+                    {
+                        return exFieldInfo;
+                    }*/
+                    /*Attribute[] attrs = Attribute.GetCustomAttributes(field, typeof(ZCodeAttribute));
                     if (propertyAttr == null)
                     {
                         if (field.Name == name)
@@ -93,7 +122,7 @@ namespace ZCompileCore.Loads
                             return GclUtil.CreatExFieldInfo(ForType.GetField(field.Name), ForType);
                             //return ForType.GetField(field.Name);
                         }
-                    }
+                    }*/
                 }
                 return null;
             }
@@ -104,13 +133,22 @@ namespace ZCompileCore.Loads
                 {
                     if (ReflectionUtil.IsDeclare(MType, field))
                     {
+                        if (isExFieldInfoByAttr(name, field))
+                        {
+                            return GclUtil.CreatExFieldInfo(ForType.GetField(field.Name), ForType);
+                        }
+                        /*ExFieldInfo exFieldInfo = searchExFieldInfoByAttr(name, field);
+                        if (exFieldInfo != null)
+                        {
+                            return exFieldInfo;
+                        }*/
+                        /*
                         ZCodeAttribute propertyAttr = Attribute.GetCustomAttribute(field, typeof(ZCodeAttribute)) as ZCodeAttribute;
                         if (propertyAttr == null)
                         {
                             if (field.Name == name)
                             {
                                 return GclUtil.CreatExFieldInfo(ForType.GetField(field.Name), ForType);
-                                //return ForType.GetField(field.Name);
                             }
                         }
                         else
@@ -118,9 +156,8 @@ namespace ZCompileCore.Loads
                             if (propertyAttr.Code == name)
                             {
                                 return GclUtil.CreatExFieldInfo(ForType.GetField(field.Name), ForType);
-                                //return ForType.GetField(field.Name);
                             }
-                        }
+                        }*/
                     }
                 }
                 return null;
@@ -130,11 +167,20 @@ namespace ZCompileCore.Loads
         public ExPropertyInfo SearchExProperty(string name)
         {
             var propertyArray = MType.GetProperties(/*BindingFlags.DeclaredOnly*/ );
-            foreach (var property in propertyArray)
+            foreach (PropertyInfo property in propertyArray)
             {
                 if (ReflectionUtil.IsDeclare(MType, property))
                 {
-                    ZCodeAttribute propertyAttr = Attribute.GetCustomAttribute(property, typeof(ZCodeAttribute)) as ZCodeAttribute;
+                    if (isExFieldInfoByAttr(name, property))
+                    {
+                        return GclUtil.CreatExPropertyInfo(ForType.GetProperty(property.Name), ForType);
+                    }
+                    /*ExFieldInfo exFieldInfo = searchExFieldInfoByAttr(name, property);
+                    if (exFieldInfo != null)
+                    {
+                        return exFieldInfo;
+                    }*/
+                    /*ZCodeAttribute propertyAttr = Attribute.GetCustomAttribute(property, typeof(ZCodeAttribute)) as ZCodeAttribute;
                     if (propertyAttr == null)
                     {
                         if (property.Name == name)
@@ -150,7 +196,7 @@ namespace ZCompileCore.Loads
                             //return ForType.GetExProperty(property.Name);
                             return GclUtil.CreatExPropertyInfo(ForType.GetProperty(property.Name), ForType);
                         }
-                    }
+                    }*/
                 }
             }
             if (isRootMapping())
@@ -176,41 +222,13 @@ namespace ZCompileCore.Loads
             {
                 if (ReflectionUtil.IsDeclare(MType, method))
                 {
-                    ZCodeAttribute procAttr = Attribute.GetCustomAttribute(method, typeof(ZCodeAttribute)) as ZCodeAttribute;
-                    if (procAttr == null)
+                    //ZCodeAttribute procAttr = Attribute.GetCustomAttribute(method, typeof(ZCodeAttribute)) as ZCodeAttribute;
+                    Attribute[] attrs = Attribute.GetCustomAttributes(method, typeof(ZCodeAttribute));
+                    if (attrs.Length == 0) // if (procAttr == null)
                     {
                         ExMethodInfo exMethod = GclUtil.CreatExMethodInfo(method, this.ForType);
                         TKTProcDesc typeProcDesc = ProcDescHelper.CreateProcDesc(exMethod);
-                        if(typeProcDesc.Eq(procDesc))
-                        {
-                            MethodInfo rmethod = method;
-                            if (rmethod.IsAbstract)
-                            {
-                                rmethod = searchMethodByMethod(method);
-                            }
-                            if(rmethod==null)
-                            {
-                                return null; 
-                                //throw new RTException("方法与被翻译类型的方法不一致");
-                            }
-                            else
-                            {
-                                TKTProcDesc rdesc = ProcDescHelper.CreateProcDesc(exMethod);
-                                return rdesc;
-                            }                              
-                        }
-                    }
-                    else
-                    {                        
-                        ParameterInfo[] paramArray = method.GetParameters();
-                      
-                        parser.InitType(ForType, method);
-                        TKTProcDesc typeProcDesc = parser.Parser(WordDict,procAttr.Code);
-                        if (method.IsStatic && !method.IsAbstract && typeProcDesc.HasSubject() && typeProcDesc.GetSubjectArg().ArgType == this.ForType)
-                        {
-                            typeProcDesc = typeProcDesc.CreateTail();
-                        }
-                        if(typeProcDesc.Eq(procDesc))
+                        if (typeProcDesc.Eq(procDesc))
                         {
                             MethodInfo rmethod = method;
                             if (rmethod.IsAbstract)
@@ -219,15 +237,47 @@ namespace ZCompileCore.Loads
                             }
                             if (rmethod == null)
                             {
-                                return null; 
-                                //throw new RTException("过程描述标注错误");
+                                return null;
                             }
                             else
                             {
-                                ExMethodInfo exMethod = GclUtil.CreatExMethodInfo(rmethod, this.ForType);
-                                typeProcDesc.ExMethod = exMethod;
-                                return typeProcDesc;
-                            }             
+                                TKTProcDesc rdesc = ProcDescHelper.CreateProcDesc(exMethod);
+                                return rdesc;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ParameterInfo[] paramArray = method.GetParameters();
+
+                        parser.InitType(ForType, method);
+                        foreach (Attribute attr in attrs)
+                        {
+                            ZCodeAttribute zCodeAttribute = attr as ZCodeAttribute;
+                            TKTProcDesc typeProcDesc = parser.Parser(WordDict, zCodeAttribute.Code);
+                            if (method.IsStatic && !method.IsAbstract && typeProcDesc.HasSubject() &&
+                                typeProcDesc.GetSubjectArg().ArgType == this.ForType)
+                            {
+                                typeProcDesc = typeProcDesc.CreateTail();
+                            }
+                            if (typeProcDesc.Eq(procDesc))
+                            {
+                                MethodInfo rmethod = method;
+                                if (rmethod.IsAbstract)
+                                {
+                                    rmethod = searchMethodByMethod(method);
+                                }
+                                if (rmethod == null)
+                                {
+                                    return null;
+                                }
+                                else
+                                {
+                                    ExMethodInfo exMethod = GclUtil.CreatExMethodInfo(rmethod, this.ForType);
+                                    typeProcDesc.ExMethod = exMethod;
+                                    return typeProcDesc;
+                                }
+                            }
                         }
                     }
                 }

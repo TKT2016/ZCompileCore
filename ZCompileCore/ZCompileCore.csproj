@@ -158,8 +158,6 @@
     <Compile Include="Tools\ListHelper.cs" />
     <Compile Include="Tools\TextUtil.cs" />
     <Compile Include="Symbols\Imports\SymbolEnumItem.cs" />
-    <None Include="Z语言教程.chm" />
-    <None Include="Z语言接口编写文档 0.3.doc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZLangRT\ZLangRT.csproj">

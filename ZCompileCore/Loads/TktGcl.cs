@@ -60,9 +60,6 @@ namespace ZCompileCore.Loads
         public IGcl CreateNewFor(Type forType)
         {
             TktGcl gcl = new TktGcl(forType,this.WordDict);
-            //gcl.MType = forType;
-            //gcl.ForType = forType;
-            //gcl.WordDict = this.WordDict;
             return gcl;
         }
 
